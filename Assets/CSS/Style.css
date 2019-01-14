@@ -1,3 +1,6 @@
 .sport-button {
     margin: 5px;
 }
+img {
+    animation-play-state: paused;
+}
