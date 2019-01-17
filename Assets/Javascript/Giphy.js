@@ -1,11 +1,12 @@
 // First sport added
 var sports = ["Rugby", "Football", "Swimming"];
+var play = true;
+
 
     function displaySports() {
 
     // Clear "#sport-selected" div to prevent repeated buttons
     $("#sports-selected").empty();
-    var play = false;
 
 
     for(var i = 0; i < sports.length; i++) {
@@ -25,73 +26,63 @@ var sports = ["Rugby", "Football", "Swimming"];
     }}
 
     function animation() {
-
+        // Pick an sport
         var sport = $(this).attr("data-name");
-
+        // Sport Giphy API
         var xhr = $.get("http://api.giphy.com/v1/gifs/search?q="+sport+"&api_key=95E3YIlkuHKy27IDEDNbH5kd1xeJk1Yp&limit=10");
         xhr.done(function(data) { console.log("success got data", data); 
         
         var result = data.data;
         
-
+        // Print 10 
         for(var i=0; i<result.length; i++) {
 
-            var c = $("<div>");
+            var picture = {
+                id : i,
+                still : result[i].images.original_still.url,
+                original : result[i].images.original.url,
+            }
+
+            console.log(picture);
+
+            var c = $("<div id='"+i+"'>");
 
             var b = $("<img >");
 
-            // b.attr("src",result[i].images.original_still.url);
+            b.attr("id",picture.id);
 
-            b.attr("id",i);
-
-            // if(play = false) {
-                $(b).attr("src", result[i].images.original.url);
-            // } else{
-                // $(b).attr("src", result[i].images.original.url);
-            // }
+            $(b).attr("src", picture.still);
 
             c.append(b);
 
             $("#gif-div").prepend(c);
 
-            $(document).on("click", "img", function(play){
-                switch(play) {
-                    
-                    case false:
-                    $(this).css("animation-play-state", "running" );
-                    play = true;
-                    break
-
-                    case true:
-                    $(this).css("animation-play-state", "paused");
-                    play = false;
-                    break
-
-                }
-            })
-
             }
 
-        // $(document).on("click", "img", function() {
+            $(document).on("click", "img", function(play){
 
-        //     switch(play) {
-        
-        //         case false:
-        //         $(this).attr("src",result[i].images.original.url);
-        //         play = true;
-        //         break
-    
-        //         case true:
-        //         $(this).attr("src",result[i].images.original_still.url);
-        //         play = false;
-        //         break
-    
-        //     }
+                if(play = false) {
 
-        //     })
+                        source = this["id"].picture.original;
+                        play = true;
+                        console.log("click");
+
+                    } else{
+
+                        source = this.original;
+                        play = false;
+                    }
+                        
+                    $(this).attr("src",source);
+                    console.log(play);
+
+                
+                })
         
-        });
-    }
+        
+    });
+
+    };
 
     $("#add-sport").on("click", function(event) {
 
