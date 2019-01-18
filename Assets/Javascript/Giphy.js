@@ -1,6 +1,7 @@
 // First sport added
 var sports = ["Rugby", "Football", "Swimming"];
-var play = true;
+var play = 1;
+var imagenes = [];
 
 
     function displaySports() {
@@ -33,6 +34,7 @@ var play = true;
         xhr.done(function(data) { console.log("success got data", data); 
         
         var result = data.data;
+
         
         // Print 10 
         for(var i=0; i<result.length; i++) {
@@ -57,28 +59,25 @@ var play = true;
 
             $("#gif-div").prepend(c);
 
+            imagenes.push(picture);
+
             }
 
-            $(document).on("click", "img", function(play){
+            $(document).on("click", "img", function(){
 
-                if(play = false) {
+                if(play % 2 == 0) {
+                    $(this).attr("src", imagenes[this.id].still);
 
-                        source = this["id"].picture.original;
-                        play = true;
-                        console.log("click");
-
+                    console.log(this.id);
+                    play++;
                     } else{
-
-                        source = this.original;
-                        play = false;
+                        $(this).attr("src", imagenes[this.id].original);
+                        play++;
+                        console.log(result[this.id]);
                     }
-                        
-                    $(this).attr("src",source);
-                    console.log(play);
 
-                
                 })
-        
+
         
     });
 
